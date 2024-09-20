@@ -18,3 +18,28 @@ Test(libscary, push_ref_and_length) {
 
     scary_free(a);
 }
+
+Test(libscary, push) {
+    int *a = scary_new(sizeof(int));
+    scary_push(&a, 42);
+    cr_expect(eq(sz, 1, scary_length(a)));
+    scary_free(a);
+
+    char **b = scary_new(sizeof(char *));
+    const char *l[] = { "foo", "bar" };
+    scary_push(&b, l[0]);
+    scary_push(&b, l[1]);
+    cr_expect(eq(sz, 2, scary_length(b)));
+    cr_expect(eq(str, "foo", b[0]));
+    cr_expect(eq(str, "bar", b[1]));
+    scary_free(b);
+
+    char *c = scary_new(sizeof(char));
+    char lc[] = { 'a', 'b' };
+    scary_push(&c, lc[0]);
+    scary_push(&c, lc[1]);
+    cr_expect(eq(sz, 2, scary_length(c)));
+    cr_expect(eq(chr, 'a', c[0]));
+    cr_expect(eq(chr, 'b', c[1]));
+    scary_free(c);
+}

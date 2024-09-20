@@ -88,3 +88,21 @@ void scary_push_ref(void *p, const void *elem)
     ary->length++;
     *(void **) p = opaque(ary);
 }
+
+#define DEF_PUSH_VARIANT2(type, suffix) \
+    void scary_push_##suffix(void *p, type elem) \
+    { \
+        type tmp = elem; \
+        scary_push_ref(p, &tmp); \
+    }
+#define DEF_PUSH_VARIANT(type) DEF_PUSH_VARIANT2(type##_t, type)
+
+DEF_PUSH_VARIANT(int8)
+DEF_PUSH_VARIANT(int16)
+DEF_PUSH_VARIANT(int32)
+DEF_PUSH_VARIANT(int64)
+DEF_PUSH_VARIANT(uint8)
+DEF_PUSH_VARIANT(uint16)
+DEF_PUSH_VARIANT(uint32)
+DEF_PUSH_VARIANT(uint64)
+DEF_PUSH_VARIANT2(const void *, ptr)
