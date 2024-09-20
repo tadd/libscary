@@ -15,6 +15,12 @@ scary.o: scary.h
 %.so:
 	$(CC) $(CFLAGS) -shared -fPIC $^ -o $@
 
+test: testlib
+	env LD_LIBRARY_PATH=. ./$<
+
+testlib: testlib.c $(LIB)
+	$(CC) $(CFLAGS) -L. -lscary -lcriterion $^ -o $@
+
 clean:
 	rm -f *.o *.so
 
@@ -23,4 +29,4 @@ clean:
 
 analyze: scary.analyze.o
 
-.PHONY: clean analyze
+.PHONY: clean analyze test
