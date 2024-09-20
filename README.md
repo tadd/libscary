@@ -33,6 +33,15 @@ printf("content: %d\n", i);
 ```
 Then it prints `42`. Happy ending. 🤔🤔
 
+## Development
+
+We use [Criterion](https://github.com/Snaipe/Criterion) for tests so
+you'll need to install that before `make test`.
+
+Dear Debian/Ubuntu users: You can install [its
+package](https://packages.debian.org/bookworm/libcriterion-dev) via
+`apt install libcriterion-dev`.
+
 ## License
 
 [CC0](./CC0.md).
