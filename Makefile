@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -fPIC $(XCFLAGS)
-#CFLAGS = -Wall -Wextra -ggdb3 -O $(XCFLAGS)
+CFLAGS = -Wall -Wextra -O3 -fPIC -DPOSIXLY_CORRUPT $(XCFLAGS)
+#CFLAGS = -Wall -Wextra -ggdb3 -Og -DPOSIXLY_CORRUPT $(XCFLAGS)
 ANALYZE = -fanalyzer
 LIB = libscary.so
 
