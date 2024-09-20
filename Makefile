@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -O3 -fPIC $(XCFLAGS)
+CFLAGS=-Wall -Wextra -O3 -fPIC $(XCFLAGS) -DPOSIXLY_CORRUPT
 #CFLAGS=-Wall -Wextra -ggdb3 -O $(XCFLAGS)
 ANALYZE=-fanalyzer
 LIB=libscary.so
