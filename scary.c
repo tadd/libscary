@@ -81,12 +81,13 @@ size_t scary_length(const void *p)
 
 void scary_push_ref(void *p, const void *elem)
 {
-    Scary *ary = get(*(void **) p);
+    void **pp = (void **) p;
+    Scary *ary = get(*pp);
     maybe_resize(&ary);
     uint8_t *sp = ary->space + ary->elem_size * ary->length;
     memcpy(sp, elem, ary->elem_size);
     ary->length++;
-    *(void **) p = opaque(ary);
+    *pp = opaque(ary);
 }
 
 #define DEF_PUSH_VARIANT2(type, suffix) \
