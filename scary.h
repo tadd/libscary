@@ -8,8 +8,14 @@ void *scary_new(size_t size);
 void scary_free(void *ary);
 size_t scary_length(const void *ary);
 void scary_push_ref(void *pary, const void *elem);
+#ifdef __APPLE__
+#define scary_push_archdep_pattern() unsigned long: scary_push_uint64,
+#else
+#define scary_push_archdep_pattern() //empty
+#endif
 #define scary_push(pary, elem) \
     _Generic(elem, \
+        scary_push_archdep_pattern() \
         int8_t: scary_push_int8, \
         int16_t: scary_push_int16, \
         int32_t: scary_push_int32, \
