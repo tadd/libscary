@@ -113,3 +113,12 @@ void scary_pop(void *p)
     Scary *ary = get(p);
     ary->length--; // do not shrink for speed
 }
+
+void *scary_dup(void *p)
+{
+    Scary *ary = get(p);
+    Scary *dup = xmalloc(sizeof(Scary) + ary->capacity);
+    *dup = *ary;
+    memcpy(dup->space, ary->space, ary->capacity);
+    return opaque(dup);
+}
