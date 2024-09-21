@@ -21,6 +21,7 @@ void scary_push_ref(void *pary, const void *elem);
         uint64_t: scary_push_uint64, \
         char *: scary_push_ptr, \
         const char *: scary_push_ptr, \
+        const char **: scary_push_ptr, \
         int8_t *: scary_push_ptr, \
         int16_t *: scary_push_ptr, \
         int32_t *: scary_push_ptr, \
