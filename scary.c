@@ -106,3 +106,9 @@ DEF_PUSH_VARIANT(uint16)
 DEF_PUSH_VARIANT(uint32)
 DEF_PUSH_VARIANT(uint64)
 DEF_PUSH_VARIANT2(const void *, ptr)
+
+void scary_pop(void *p)
+{
+    Scary *ary = get(p);
+    ary->length--; // do not shrink for speed
+}

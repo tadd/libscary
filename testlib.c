@@ -43,3 +43,12 @@ Test(libscary, push) {
     cr_expect(eq(chr, 'b', c[1]));
     scary_free(c);
 }
+
+Test(libscary, pop) {
+    int *a = scary_new(sizeof(int));
+    scary_push(&a, 42);
+    scary_push(&a, -42);
+    scary_pop(a);
+    cr_expect(eq(sz, 1, scary_length(a)));
+    scary_free(a);
+}
