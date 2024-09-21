@@ -2,6 +2,7 @@
 #define SCARY_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 void *scary_new(size_t size);
 void scary_free(void *ary);
