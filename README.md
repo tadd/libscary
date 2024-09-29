@@ -9,14 +9,14 @@ int *a = scary_new(sizeof(int));
 Look at this LHS; it looks like an ordinary C array, but
 
 ```c
-printf("length: %zu\n", scary_length(a));
+printf("length: %zu\n", scary_length(a)); //=> 0
 ```
-they knows their length by themselves 😱.
+they know their length by themselves 😱.
 
 ```c
 scary_push(a, -1);
 scary_push(a, 42);
-printf("new length: %zu\n", scary_length(a));
+printf("new length: %zu\n", scary_length(a)); //=> 2
 ```
 You can push elements with automatic memory extension,
 as much as you want.
