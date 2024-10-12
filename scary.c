@@ -34,7 +34,7 @@ typedef struct {
 } Scary;
 
 enum {
-    SCARY_DISTANCE = offsetof(Scary, space),
+    SCARY_OFFSET = offsetof(Scary, space),
     SCARY_INIT = 8,
 };
 
@@ -43,10 +43,10 @@ static inline void *opaque(Scary *a)
     return a->space;
 }
 
-static inline Scary *get(void *p)
+static inline Scary *get(const void *p)
 {
-    uint8_t *bp = p;
-    return (Scary *) (bp - SCARY_DISTANCE);
+    const uint8_t *bp = p;
+    return (Scary *) (bp - SCARY_OFFSET);
 }
 
 void *scary_new(size_t elem_size)
@@ -75,13 +75,13 @@ static void maybe_resize(Scary **pary)
 
 size_t scary_length(const void *p)
 {
-    const Scary *ary = get((void *) p);
+    const Scary *ary = get(p);
     return ary->length;
 }
 
 void scary_push_ref(void *p, const void *elem)
 {
-    void **pp = (void **) p;
+    void **pp = p;
     Scary *ary = get(*pp);
     maybe_resize(&ary);
     uint8_t *sp = ary->space + ary->elem_size * ary->length;
