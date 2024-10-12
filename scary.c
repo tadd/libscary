@@ -91,12 +91,12 @@ void scary_push_ref(void *p, const void *elem)
 }
 
 #define DEF_PUSH_VARIANT2(type, suffix) \
-    void scary_push_##suffix(void *p, type elem) \
+    void scary_push_##suffix(type **p, type elem) \
     { \
-        type tmp = elem; \
-        scary_push_ref(p, &tmp); \
+        scary_push_ref(p, &elem); \
     }
 #define DEF_PUSH_VARIANT(type) DEF_PUSH_VARIANT2(type##_t, type)
+#define DEF_PUSH_VARIANT1(type) DEF_PUSH_VARIANT2(type, type)
 
 DEF_PUSH_VARIANT(int8)
 DEF_PUSH_VARIANT(int16)
@@ -106,7 +106,11 @@ DEF_PUSH_VARIANT(uint8)
 DEF_PUSH_VARIANT(uint16)
 DEF_PUSH_VARIANT(uint32)
 DEF_PUSH_VARIANT(uint64)
-DEF_PUSH_VARIANT2(const void *, ptr)
+DEF_PUSH_VARIANT1(char)
+void scary_push_ptr(void *p, const void *elem)
+{
+    scary_push_ref(p, &elem);
+}
 
 void scary_pop(void *p)
 {
