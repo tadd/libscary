@@ -64,21 +64,15 @@ void scary_free(void *p)
     free(get(p));
 }
 
-static void maybe_resize(Scary **pary)
-{
-    Scary *ary = *pary;
-    if (ary->capacity > ary->length * ary->elem_size)
-        return;
-    ary->capacity *= 2;
-    *pary = xrealloc(ary, sizeof(Scary) + ary->capacity);
-}
-
-static Scary *maybe_resize_and_get(void *p)
+static Scary *maybe_resize(void *p)
 {
     const void **pp = p;
     Scary *ary = get(*pp);
-    maybe_resize(&ary);
-    *pp = opaque(ary);
+    if (ary->capacity <= ary->length * ary->elem_size) {
+        ary->capacity *= 2;
+        ary = xrealloc(ary, sizeof(Scary) + ary->capacity);
+        *pp = opaque(ary);
+    }
     return ary;
 }
 
@@ -91,7 +85,7 @@ size_t scary_length(const void *p)
 #define DEF_PUSH_VARIANT2(type, suffix) \
     void scary_push_##suffix(type **p, type elem) \
     { \
-        Scary *ary = maybe_resize_and_get(p); \
+        Scary *ary = maybe_resize(p); \
         type *sp = (type *) ary->space; \
         sp[ary->length++] = elem; \
     }
@@ -110,7 +104,7 @@ DEF_PUSH_VARIANT1(char)
 
 void scary_push_ptr(void *p, const void *elem)
 {
-    Scary *ary = maybe_resize_and_get(p);
+    Scary *ary = maybe_resize(p);
     const void **sp = (const void **) ary->space;
     sp[ary->length++] = elem;
 }
