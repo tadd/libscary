@@ -93,7 +93,11 @@ static void scary_push_ref(void *p, const void *elem)
 #define DEF_PUSH_VARIANT2(type, suffix) \
     void scary_push_##suffix(type **p, type elem) \
     { \
-        scary_push_ref(p, &elem); \
+        Scary *ary = get(*p); \
+        maybe_resize(&ary); \
+        *p = opaque(ary); \
+        type *sp = (type *) ary->space; \
+        sp[ary->length++] = elem; \
     }
 #define DEF_PUSH_VARIANT(type) DEF_PUSH_VARIANT2(type##_t, type)
 #define DEF_PUSH_VARIANT1(type) DEF_PUSH_VARIANT2(type, type)
