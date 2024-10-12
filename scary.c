@@ -73,29 +73,25 @@ static void maybe_resize(Scary **pary)
     *pary = xrealloc(ary, sizeof(Scary) + ary->capacity);
 }
 
+static Scary *maybe_resize_and_get(void *p)
+{
+    const void **pp = p;
+    Scary *ary = get(*pp);
+    maybe_resize(&ary);
+    *pp = opaque(ary);
+    return ary;
+}
+
 size_t scary_length(const void *p)
 {
     const Scary *ary = get(p);
     return ary->length;
 }
 
-static void scary_push_ref(void *p, const void *elem)
-{
-    void **pp = p;
-    Scary *ary = get(*pp);
-    maybe_resize(&ary);
-    uint8_t *sp = ary->space + ary->elem_size * ary->length;
-    memcpy(sp, elem, ary->elem_size);
-    ary->length++;
-    *pp = opaque(ary);
-}
-
 #define DEF_PUSH_VARIANT2(type, suffix) \
     void scary_push_##suffix(type **p, type elem) \
     { \
-        Scary *ary = get(*p); \
-        maybe_resize(&ary); \
-        *p = opaque(ary); \
+        Scary *ary = maybe_resize_and_get(p); \
         type *sp = (type *) ary->space; \
         sp[ary->length++] = elem; \
     }
@@ -111,9 +107,12 @@ DEF_PUSH_VARIANT(uint16)
 DEF_PUSH_VARIANT(uint32)
 DEF_PUSH_VARIANT(uint64)
 DEF_PUSH_VARIANT1(char)
+
 void scary_push_ptr(void *p, const void *elem)
 {
-    scary_push_ref(p, &elem);
+    Scary *ary = maybe_resize_and_get(p);
+    const void **sp = (const void **) ary->space;
+    sp[ary->length++] = elem;
 }
 
 void scary_pop(void *p)
