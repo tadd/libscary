@@ -79,7 +79,7 @@ size_t scary_length(const void *p)
     return ary->length;
 }
 
-void scary_push_ref(void *p, const void *elem)
+static void scary_push_ref(void *p, const void *elem)
 {
     void **pp = p;
     Scary *ary = get(*pp);

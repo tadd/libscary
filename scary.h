@@ -7,7 +7,6 @@
 void *scary_new(size_t size);
 void scary_free(void *ary);
 size_t scary_length(const void *ary);
-void scary_push_ref(void *ary, const void *elem);
 #ifdef __APPLE__
 #define scary_push_archdep_pattern() unsigned long: scary_push_uint64,
 #else
