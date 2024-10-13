@@ -10,8 +10,10 @@
 #define NONNULL(p) do { \
         errno = 0; \
         void *q = (p); \
-        if (q == NULL) \
+        if (q == NULL) { \
             perror("scary"); \
+            abort(); \
+        } \
     } while (0)
 
 static inline void *xmalloc(size_t size)
