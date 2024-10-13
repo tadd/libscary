@@ -82,6 +82,13 @@ size_t scary_length(const void *p)
     return ary->length;
 }
 
+static void scary_push_ptr(void *p, const void *elem)
+{
+    Scary *ary = maybe_resize(p);
+    const void **sp = (const void **) ary->space;
+    sp[ary->length++] = elem;
+}
+
 #define DEF_PUSH_VARIANT2(type, suffix) \
     void scary_push_##suffix(type **p, type elem) \
     { \
@@ -91,7 +98,6 @@ size_t scary_length(const void *p)
     }
 #define DEF_PUSH_VARIANT_T(type) DEF_PUSH_VARIANT2(type##_t, type)
 #define DEF_PUSH_VARIANT1(type) DEF_PUSH_VARIANT2(type, type)
-
 DEF_PUSH_VARIANT_T(int8)
 DEF_PUSH_VARIANT_T(int16)
 DEF_PUSH_VARIANT_T(int32)
@@ -102,12 +108,23 @@ DEF_PUSH_VARIANT_T(uint32)
 DEF_PUSH_VARIANT_T(uint64)
 DEF_PUSH_VARIANT1(char)
 
-void scary_push_ptr(void *p, const void *elem)
-{
-    Scary *ary = maybe_resize(p);
-    const void **sp = (const void **) ary->space;
-    sp[ary->length++] = elem;
-}
+#define DEF_PUSH_VARIANT_PTR(type, suffix) \
+    void scary_push_##suffix##p(type ***p, const type *elem) \
+    { \
+        scary_push_ptr(p, elem); \
+    }
+#define DEF_PUSH_VARIANT_T_PTR(type) DEF_PUSH_VARIANT_PTR(type##_t, type)
+#define DEF_PUSH_VARIANT1_PTR(type) DEF_PUSH_VARIANT_PTR(type, type)
+DEF_PUSH_VARIANT_T_PTR(int8)
+DEF_PUSH_VARIANT_T_PTR(int16)
+DEF_PUSH_VARIANT_T_PTR(int32)
+DEF_PUSH_VARIANT_T_PTR(int64)
+DEF_PUSH_VARIANT_T_PTR(uint8)
+DEF_PUSH_VARIANT_T_PTR(uint16)
+DEF_PUSH_VARIANT_T_PTR(uint32)
+DEF_PUSH_VARIANT_T_PTR(uint64)
+DEF_PUSH_VARIANT1_PTR(char)
+DEF_PUSH_VARIANT1_PTR(void)
 
 void scary_pop(void *p)
 {

@@ -25,6 +25,26 @@ Test(libscary, push) {
     cr_expect(eq(sz, 1, scary_length(a)));
     scary_free(a);
 
+    char *b = scary_new(sizeof(char));
+    char lb[] = { 'a', 'b' };
+    scary_push(&b, lb[0]);
+    scary_push(&b, lb[1]);
+    cr_expect(eq(sz, 2, scary_length(b)));
+    cr_expect(eq(chr, 'a', b[0]));
+    cr_expect(eq(chr, 'b', b[1]));
+    scary_free(b);
+}
+
+Test(libscary, push_ptr) {
+    int64_t **a = scary_new(sizeof(int64_t *));
+    int64_t la[] = { 1, -2 };
+    scary_push(&a, &la[0]);
+    scary_push(&a, &la[1]);
+    cr_expect(eq(sz, 2, scary_length(a)));
+    cr_expect(eq(ptr, &la[0], a[0]));
+    cr_expect(eq(ptr, &la[1], a[1]));
+    scary_free(a);
+
     char **b = scary_new(sizeof(char *));
     const char *l[] = { "foo", "bar" };
     scary_push(&b, l[0]);
@@ -33,15 +53,6 @@ Test(libscary, push) {
     cr_expect(eq(str, "foo", b[0]));
     cr_expect(eq(str, "bar", b[1]));
     scary_free(b);
-
-    char *c = scary_new(sizeof(char));
-    char lc[] = { 'a', 'b' };
-    scary_push(&c, lc[0]);
-    scary_push(&c, lc[1]);
-    cr_expect(eq(sz, 2, scary_length(c)));
-    cr_expect(eq(chr, 'a', c[0]));
-    cr_expect(eq(chr, 'b', c[1]));
-    scary_free(c);
 }
 
 Test(libscary, pop) {
