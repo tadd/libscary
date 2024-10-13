@@ -12,6 +12,9 @@ scary.o: scary.h
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
+%.s: %.c
+	$(CC) $(CFLAGS) -S -c $<
+
 %.so:
 	$(CC) $(CFLAGS) -shared -fPIC $^ -o $@
 
