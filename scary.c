@@ -38,6 +38,7 @@ typedef struct {
 enum {
     SCARY_OFFSET = offsetof(Scary, space),
     SCARY_INIT = 8,
+    SCARY_INC_RATIO = 2,
 };
 
 static inline void *opaque(Scary *a)
@@ -71,7 +72,7 @@ static Scary *maybe_resize(void *p)
     const void **pp = p;
     Scary *ary = get(*pp);
     if (ary->capacity <= ary->length * ary->elem_size) {
-        ary->capacity *= 2;
+        ary->capacity *= SCARY_INC_RATIO;
         ary = xrealloc(ary, sizeof(Scary) + ary->capacity);
         *pp = opaque(ary);
     }
@@ -80,15 +81,7 @@ static Scary *maybe_resize(void *p)
 
 size_t scary_length(const void *p)
 {
-    const Scary *ary = get(p);
-    return ary->length;
-}
-
-static void scary_push_ptr(void *p, const void *elem)
-{
-    Scary *ary = maybe_resize(p);
-    const void **sp = (const void **) ary->space;
-    sp[ary->length++] = elem;
+    return get(p)->length;
 }
 
 #define DEF_PUSH_VARIANT2(type, suffix) \
@@ -110,6 +103,13 @@ DEF_PUSH_VARIANT_T(uint32)
 DEF_PUSH_VARIANT_T(uint64)
 DEF_PUSH_VARIANT1(char)
 
+static void scary_push_ptr(void *p, const void *elem)
+{
+    Scary *ary = maybe_resize(p);
+    const void **sp = (const void **) ary->space;
+    sp[ary->length++] = elem;
+}
+
 #define DEF_PUSH_VARIANT_PTR(type, suffix) \
     void scary_push_##suffix##p(type ***p, const type *elem) \
     { \
@@ -130,8 +130,7 @@ DEF_PUSH_VARIANT1_PTR(void)
 
 void scary_pop(void *p)
 {
-    Scary *ary = get(p);
-    ary->length--; // do not shrink for speed
+    get(p)->length--; // do not shrink for speed
 }
 
 void *scary_dup(void *p)
