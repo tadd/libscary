@@ -25,7 +25,7 @@ size_t scary_length(const void *ary);
         uint32_t: scary_push_uint32, \
         uint64_t: scary_push_uint64, \
         char *: scary_push_charp, \
-        const char *: scary_push_charp, \
+        const char *: scary_push_ccharp, \
         int8_t *: scary_push_int8p, \
         int16_t *: scary_push_int16p, \
         int32_t *: scary_push_int32, \
@@ -45,6 +45,7 @@ void scary_push_uint8(uint8_t **, uint8_t);
 void scary_push_uint16(uint16_t **, uint16_t);
 void scary_push_uint32(uint32_t **, uint32_t);
 void scary_push_uint64(uint64_t **, uint64_t);
+void scary_push_ccharp(const char ***, const char *);
 void scary_push_charp(char ***, const char *);
 void scary_push_voidp(void ***, const void *);
 void scary_push_int8p(int8_t ***, const int8_t *);

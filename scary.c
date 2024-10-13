@@ -127,6 +127,10 @@ DEF_PUSH_VARIANT_T_PTR(uint32)
 DEF_PUSH_VARIANT_T_PTR(uint64)
 DEF_PUSH_VARIANT1_PTR(char)
 DEF_PUSH_VARIANT1_PTR(void)
+void scary_push_ccharp(const char ***p, const char *elem)
+{
+    scary_push_ptr(p, elem);
+}
 
 void scary_pop(void *p)
 {

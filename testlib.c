@@ -46,7 +46,7 @@ Test(libscary, push_ptr) {
     scary_free(a);
 
     char **b = scary_new(sizeof(char *));
-    const char *l[] = { "foo", "bar" };
+    char *l[] = { "foo", "bar" };
     scary_push(&b, l[0]);
     scary_push(&b, l[1]);
     cr_expect(eq(sz, 2, scary_length(b)));
