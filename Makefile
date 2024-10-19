@@ -7,7 +7,7 @@ LIB=libscary.so
 all: $(LIB)
 
 $(LIB): scary.o
-scary.o: scary.h
+testlib.o scary.o: scary.h
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
