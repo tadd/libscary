@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -O3 $(XCFLAGS)
+CFLAGS=-Wall -Wextra -O3 -fPIC $(XCFLAGS)
 #CFLAGS=-Wall -Wextra -ggdb3 -O $(XCFLAGS)
 ANALYZE=-fanalyzer
 LIB=libscary.so
@@ -16,7 +16,7 @@ testlib.o scary.o: scary.h
 	$(CC) $(CFLAGS) -S -c $<
 
 %.so:
-	$(CC) $(CFLAGS) -shared -fPIC $^ -o $@
+	$(CC) $(CFLAGS) -shared $^ -o $@
 
 test: testlib
 	env LD_LIBRARY_PATH=. ./$<
