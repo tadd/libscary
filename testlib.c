@@ -76,3 +76,12 @@ Test(libscary, dup) {
     scary_free(b);
     scary_free(a);
 }
+
+Test(libscary, free_null) {
+    scary_free(NULL);
+    int *a = scary_new(sizeof(int));
+    scary_push(&a, 42);
+    scary_push(&a, -42);
+    scary_free(a);
+    scary_free(NULL);
+}

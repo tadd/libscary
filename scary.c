@@ -64,7 +64,8 @@ void *scary_new(size_t elem_size)
 
 void scary_free(void *p)
 {
-    free(get(p));
+    if (p != NULL)
+        free(get(p));
 }
 
 static Scary *maybe_resize(void *p)
