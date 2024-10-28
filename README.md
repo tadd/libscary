@@ -1,5 +1,5 @@
-libscary: An (scary) scalable array library in C
-================================================
+libscary: A (scary) scalable array library in C
+===============================================
 
 This is one of those rotten dynamic array libraries, but wait, just take a look.
 
