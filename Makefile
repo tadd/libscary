@@ -4,7 +4,7 @@ CFLAGS=-Wall -Wextra -O3 -fPIC $(XCFLAGS)
 ANALYZE=-fanalyzer
 LIB=libscary.so
 
-all: $(LIB)
+all: test
 
 $(LIB): scary.o
 testlib.o scary.o: scary.h
@@ -22,7 +22,7 @@ test: testlib
 	env LD_LIBRARY_PATH=. ./$<
 
 testlib: testlib.c $(LIB)
-	$(CC) $(CFLAGS) -L. -lscary -lcriterion $^ -o $@
+	$(CC) $(CFLAGS) -L. $< -lscary -lcriterion -o $@
 
 clean:
 	rm -f *.o *.so
