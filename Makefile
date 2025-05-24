@@ -25,7 +25,7 @@ testlib: testlib.c $(LIB)
 	$(CC) $(CFLAGS) -L. $< -lscary -lcriterion -o $@
 
 clean:
-	rm -f *.o *.so
+	rm -f *.o *.so testlib
 
 %.analyze.o: %.c
 	$(CC) $(CFLAGS) $(ANALYZE) -c $< -o /dev/null
