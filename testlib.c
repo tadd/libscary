@@ -55,6 +55,34 @@ Test(libscary, push_ptr) {
     scary_free(b);
 }
 
+Test(libscary, push_any) {
+    typedef struct {
+        char *s;
+        int x;
+        int64_t y;
+    } T;
+    char *o = "one", *t = "two";
+    T a = { o, 1 , 2 };
+    T b = { t, 3 , 4 };
+
+    T *ary = scary_new(sizeof(T));
+    cr_expect(eq(sz, 0, scary_length(ary)));
+
+    scary_push_any(&ary, &a);
+    scary_push_any(&ary, &b);
+    cr_expect(eq(sz, 2, scary_length(ary)));
+
+    cr_expect(eq(str, a.s, ary[0].s));
+    cr_expect(eq(int, a.x, ary[0].x));
+    cr_expect(eq(long, a.y, ary[0].y));
+
+    cr_expect(eq(str, b.s, ary[1].s));
+    cr_expect(eq(int, b.x, ary[1].x));
+    cr_expect(eq(long, b.y, ary[1].y));
+
+    scary_free(ary);
+}
+
 Test(libscary, pop) {
     int *a = scary_new(sizeof(int));
     scary_push(&a, 42);

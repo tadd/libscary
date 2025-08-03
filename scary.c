@@ -122,6 +122,13 @@ size_t scary_length(const void *p)
     }
 FOR_DATA(DEF_PUSH_VARIANT)
 
+void scary_push_any(void *p, void *elem)
+{
+    Scary *ary = maybe_resize(p);
+    size_t s = ary->elem_size, i = s * ary->length++;
+    memcpy(&ary->space[i], elem, s);
+}
+
 static void scary_push_ptr(void *p, const void *elem)
 {
     Scary *ary = maybe_resize(p);

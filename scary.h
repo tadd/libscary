@@ -39,6 +39,8 @@ void scary_pop(void *ary);
         uint64_t *: scary_push_uint64p, \
         void *: scary_push_voidp)(pary, elem)
 
+void scary_push_any(void *p, void *elem);
+
 void scary_push_char(char **, char);
 void scary_push_int8(int8_t **, int8_t);
 void scary_push_int16(int16_t **, int16_t);
