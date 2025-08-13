@@ -14,8 +14,8 @@ printf("length: %zu\n", scary_length(a)); //=> 0
 they know their length by themselves 😱.
 
 ```c
-scary_push(&a, -1);
 scary_push(&a, 42);
+scary_push(&a, -1);
 printf("new length: %zu\n", scary_length(a)); //=> 2
 ```
 You can push elements with automatic memory extension,
@@ -41,7 +41,8 @@ You can of course opt-in an option `-Werror` to prevent such typing mistakes.
 And you'll see **magic** here:
 
 ```c
-int i = a[1];
+int i = a[0];
+a[1] = -24;
 ```
 You can read/write them as ordinary C arrays with **zero**-overhead 😱😱.
 
