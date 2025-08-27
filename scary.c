@@ -138,7 +138,7 @@ void scary_pop(void *p)
     get(p)->length--; // do not shrink for speed
 }
 
-void *scary_dup(const void *p)
+void *scary_dup_void(const void *p)
 {
     Scary *ary = get(p);
     Scary *dup = xmalloc(sizeof(Scary) + ary->capacity);
@@ -146,3 +146,21 @@ void *scary_dup(const void *p)
     memcpy(dup->space, ary->space, ary->capacity);
     return opaque(dup);
 }
+
+#define DEF_DUP_VARIANT(type, suffix) \
+    type *scary_dup_##suffix(const type *p) \
+    { \
+        return scary_dup_void(p); \
+    }
+#define DEF_DUP_VARIANT1(type) DEF_DUP_VARIANT(type, type)
+#define DEF_DUP_VARIANT_T(type) DEF_DUP_VARIANT(type##_t, type)
+
+DEF_DUP_VARIANT1(char)
+DEF_DUP_VARIANT_T(int8)
+DEF_DUP_VARIANT_T(int16)
+DEF_DUP_VARIANT_T(int32)
+DEF_DUP_VARIANT_T(int64)
+DEF_DUP_VARIANT_T(uint8)
+DEF_DUP_VARIANT_T(uint16)
+DEF_DUP_VARIANT_T(uint32)
+DEF_DUP_VARIANT_T(uint64)
