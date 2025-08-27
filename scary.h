@@ -58,6 +58,6 @@ void scary_push_uint32p(uint32_t ***, const uint32_t *);
 void scary_push_uint64p(uint64_t ***, const uint64_t *);
 
 void scary_pop(void *ary);
-void *scary_dup(void *ary);
+void *scary_dup(const void *ary);
 
 #endif

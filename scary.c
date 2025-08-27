@@ -138,7 +138,7 @@ void scary_pop(void *p)
     get(p)->length--; // do not shrink for speed
 }
 
-void *scary_dup(void *p)
+void *scary_dup(const void *p)
 {
     Scary *ary = get(p);
     Scary *dup = xmalloc(sizeof(Scary) + ary->capacity);
