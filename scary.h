@@ -7,6 +7,8 @@
 void *scary_new(size_t size);
 void scary_free(void *ary);
 size_t scary_length(const void *ary);
+void scary_pop(void *ary);
+
 #ifdef __APPLE__
 #define scary_push_archdep_pattern() unsigned long: scary_push_uint64,
 #else
@@ -56,8 +58,6 @@ void scary_push_uint8p(uint8_t ***, const uint8_t *);
 void scary_push_uint16p(uint16_t ***, const uint16_t *);
 void scary_push_uint32p(uint32_t ***, const uint32_t *);
 void scary_push_uint64p(uint64_t ***, const uint64_t *);
-
-void scary_pop(void *ary);
 
 #define scary_dup(p) \
     _Generic(p, \
