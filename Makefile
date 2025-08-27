@@ -1,8 +1,8 @@
-CC=gcc
-CFLAGS=-Wall -Wextra -O3 -fPIC $(XCFLAGS)
-#CFLAGS=-Wall -Wextra -ggdb3 -O $(XCFLAGS)
-ANALYZE=-fanalyzer
-LIB=libscary.so
+CC = gcc
+CFLAGS = -Wall -Wextra -O3 -fPIC $(XCFLAGS)
+#CFLAGS = -Wall -Wextra -ggdb3 -O $(XCFLAGS)
+ANALYZE = -fanalyzer
+LIB = libscary.so
 
 all: test
 
