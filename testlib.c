@@ -77,6 +77,17 @@ Test(libscary, dup) {
     scary_free(a);
 }
 
+Test(libscary, dup_const) {
+    int *a = scary_new(sizeof(int));
+    scary_push(&a, 42);
+    const int *ca = a;
+    int *b = scary_dup(ca);
+    cr_expect(eq(sz, scary_length(ca), scary_length(b)));
+    cr_expect(eq(int, ca[0], b[0]));
+    scary_free(b);
+    scary_free(a);
+}
+
 Test(libscary, free_null) {
     scary_free(NULL);
     int *a = scary_new(sizeof(int));

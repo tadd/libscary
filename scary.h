@@ -59,8 +59,14 @@ void scary_push_uint16p(uint16_t ***, const uint16_t *);
 void scary_push_uint32p(uint32_t ***, const uint32_t *);
 void scary_push_uint64p(uint64_t ***, const uint64_t *);
 
+#if __STDC_VERSION__ >= 202311L
+#define CAST_UNQUAL(o) ((typeof_unqual(*o) *) o)
+#else
+#define CAST_UNQUAL(o) (o)
+#endif
+
 #define scary_dup(p) \
-    _Generic(p, \
+    _Generic(CAST_UNQUAL(p), \
         char *: scary_dup_char, \
         int8_t *: scary_dup_int8, \
         int16_t *: scary_dup_int16, \
