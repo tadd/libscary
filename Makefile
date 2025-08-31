@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -fPIC $(XCFLAGS)
-#CFLAGS = -Wall -Wextra -ggdb3 -O $(XCFLAGS)
+CFLAGS = -Wall -Wextra -fPIC -ggdb3 $(XCFLAGS)
+# XCFLAGS = -g0 -O3
 ANALYZE = -fanalyzer
 LIB = libscary.so
 
-all: test
+all: $(LIB)
 
 $(LIB): scary.o
 testlib.o scary.o: scary.h
