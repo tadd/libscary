@@ -54,7 +54,12 @@ static inline Scary *get(const void *p)
 
 void *scary_new(size_t elem_size)
 {
-    size_t cap = elem_size * SCARY_INIT;
+    return scary_new_sized(SCARY_INIT, elem_size);
+}
+
+void *scary_new_sized(size_t nmemb, size_t elem_size)
+{
+    size_t cap = nmemb * elem_size;
     Scary *ary = xmalloc(sizeof(Scary) + cap);
     ary->capacity = cap;
     ary->length = 0;
