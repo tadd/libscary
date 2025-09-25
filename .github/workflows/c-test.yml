@@ -9,29 +9,32 @@ on:
       - '**wip**'
 
 jobs:
-  build:
+  build-ubuntu:
     if: ${{ ! startsWith(github.event.head_commit.message, 'WIP') }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest ]
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - if: runner.os == 'Linux'
-      run: |
-        sudo apt install --no-install-recommends libcriterion-dev
-    - if: runner.os == 'macOS'
-      run: |
-        brew install criterion
-        echo CPATH="/opt/homebrew/include:$CPATH" >> "$GITHUB_ENV"
-        echo LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH" >> "$GITHUB_ENV"
-    - run: echo MAKEFLAGS=-j2 >> "$GITHUB_ENV"
+    - uses: actions/checkout@v5
+    - run: |
+        sudo apt install -U --no-install-recommends libcriterion-dev
+        echo MAKEFLAGS=-j4 >> "$GITHUB_ENV"
     - name: Test
       run: make test
     - name: Test -O3
       run: make clean && make test XCFLAGS='-O3 -g0'
-    - name: Clang - Test
-      run: make clean && make test CC=clang
-    - name: Clang - Test -O3
+
+  build-macos:
+    if: ${{ ! startsWith(github.event.head_commit.message, 'WIP') }}
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v5
+    - run: |
+        brew update
+        brew install criterion coreutils
+        echo CPATH="/opt/homebrew/include:$CPATH" >> "$GITHUB_ENV"
+        echo LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH" >> "$GITHUB_ENV"
+        echo DYLD_LIBRARY_PATH=. >> "$GITHUB_ENV"
+        echo MAKEFLAGS=-j3 >> "$GITHUB_ENV"
+    - name: Test
+      run: make test CC=clang
+    - name: Test -O3
       run: make clean && make test CC=clang XCFLAGS='-O3 -g0'
