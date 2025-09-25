@@ -10,7 +10,7 @@ Test(libscary, push_and_length) {
     int32_t l[] = { 1, -2, 3, -5, 7, -11 }, *p = l;
     const size_t n = sizeof(l)/sizeof(*l);
     for (size_t i = 0; i < n; i++)
-        scary_push_int32(&a, *p++);
+        scary_push(&a, *p++);
 
     cr_expect(eq(sz, n, scary_length(a)));
     cr_expect(eq(i32, 1, a[0]));

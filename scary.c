@@ -99,18 +99,19 @@ size_t scary_length(const void *p)
     return get(p)->length;
 }
 
-#define FOR_T(f, t) f(t##_t, t)
 #define FOR_1(f, t) f(t, t)
+#define FOR_2(f, t, id) f(t, id)
 #define FOR_DATA(f) \
     FOR_1(f, char) \
-    FOR_T(f, int8) \
-    FOR_T(f, int16) \
-    FOR_T(f, int32) \
-    FOR_T(f, int64) \
-    FOR_T(f, uint8) \
-    FOR_T(f, uint16) \
-    FOR_T(f, uint32) \
-    FOR_T(f, uint64)
+    FOR_1(f, short) \
+    FOR_1(f, int) \
+    FOR_1(f, long) \
+    FOR_2(f, long long, longlong) \
+    FOR_2(f, unsigned char, uchar)  \
+    FOR_2(f, unsigned short, ushort) \
+    FOR_2(f, unsigned int, uint) \
+    FOR_2(f, unsigned long, ulong) \
+    FOR_2(f, unsigned long long, ulonglong)
 #define FOR_PTRS(f) FOR_1(f, void) FOR_DATA(f)
 
 #define DEF_PUSH_VARIANT(type, suffix) \
