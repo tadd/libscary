@@ -1,5 +1,13 @@
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 #include <criterion/criterion.h>
 #include <criterion/new/assert.h>
+#ifdef __clang__
+#pragma clang diagnostic pop
+#pragma clang diagnostic ignored "-Wshadow"
+#endif
 
 #include "scary.h"
 
