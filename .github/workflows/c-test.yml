@@ -18,9 +18,9 @@ jobs:
         sudo apt install -U --no-install-recommends libcriterion-dev
         echo MAKEFLAGS=-j4 >> "$GITHUB_ENV"
     - name: Test
-      run: make test
+      run: make test XCFLAGS='-Werror'
     - name: Test -O3
-      run: make clean && make test XCFLAGS='-O3 -g0'
+      run: make clean && make test XCFLAGS='-Werror -O3 -g0'
 
   build-macos:
     if: ${{ ! startsWith(github.event.head_commit.message, 'WIP') }}
@@ -34,6 +34,6 @@ jobs:
         echo DYLD_LIBRARY_PATH=. >> "$GITHUB_ENV"
         echo MAKEFLAGS=-j3 >> "$GITHUB_ENV"
     - name: Test
-      run: make test
+      run: make test XCFLAGS='-Werror'
     - name: Test -O3
-      run: make clean && make test XCFLAGS='-O3 -g0'
+      run: make clean && make test XCFLAGS='-Werror -O3 -g0'
