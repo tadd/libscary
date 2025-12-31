@@ -1,5 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fPIC -ggdb3 $(XCFLAGS)
+warnflags = -Wcast-align -Wfloat-equal -Wpointer-arith -Wshadow -Wstrict-prototypes \
+	    -Wswitch-enum -Wundef -Wunreachable-code -Wwrite-strings -Wformat=2
+CFLAGS = -Wall -Wextra $(warnflags) -fPIC -ggdb3 $(XCFLAGS)
 # XCFLAGS = -g0 -O3
 ANALYZE = -fanalyzer
 LIB = libscary.so
